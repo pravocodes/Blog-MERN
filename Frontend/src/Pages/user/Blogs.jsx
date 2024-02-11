@@ -17,7 +17,7 @@ function Blogs() {
         const response = await axios.get(
           `/api/blogs/getuserblog/${auth?.user._id}`
         );
-        console.log(response.data.userBlogs);
+        // console.log(response.data.userBlogs);
         setBlog(response.data.userBlogs);
       } catch (error) {
         console.log(error.message);
@@ -26,22 +26,33 @@ function Blogs() {
 
     fetchBlog(); // Call fetchBlog after defining it
   }, []);
-  useEffect(() => {
-    const fetchImageURL = async () => {
-      try {
-        const response = await axios.get(`/api/blogs/getblogphoto/${_id}`, {
-          responseType: "arraybuffer",
-        });
-        const imageBlob = new Blob([response.data], { type: "image/jpeg" });
-        const imageUrl = URL.createObjectURL(imageBlob);
-        setImageURL(imageUrl);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchImageURL = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `/api/blogs/getblogphoto/${auth?.user._id}`,
+  //         {
+  //           responseType: "arraybuffer",
+  //         }
+  //       );
+  //       const imageBlob = new Blob([response.data], { type: "image/jpeg" });
+  //       const imageUrl = URL.createObjectURL(imageBlob);
+  //       setImageURL(imageUrl);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
 
-    fetchImageURL();
-  }, []);
+  //   fetchImageURL();
+  // }, []);
+
+  const handleDelete = (deletedBlogId) => {
+    // Update state to remove the deleted blog
+    setBlog((prevBlogs) =>
+      prevBlogs.filter((blog) => blog._id !== deletedBlogId)
+    );
+  };
+
   return (
     <div className="d-flex " style={{ gap: "2rem" }}>
       <div className="col-md-3">
@@ -51,7 +62,7 @@ function Blogs() {
         <h1 className="display-4 text-center mb-4">My Blogs</h1>
         <div className="row">
           {blog.map((b) => (
-            <SingleUserBlog key={b._id} {...b} />
+            <SingleUserBlog key={b._id} {...b} handleDelete={handleDelete} />
           ))}
         </div>
       </div>

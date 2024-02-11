@@ -11,7 +11,6 @@ export default function PrivateRoute() {
 
   useEffect(() => {
     const authCheck = async () => {
-      console.log("private ", auth.token);
       const res = await axios.get(`/api/auth/user-auth`, {
         headers: {
           Authorization: auth?.token,

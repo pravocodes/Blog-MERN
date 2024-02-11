@@ -69,7 +69,7 @@ function Profile() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="form-control"
-                  id="exampleInputEmail1"
+                  id="exampleInputName"
                   placeholder="Enter Your Name"
                   autoFocus
                 />
@@ -80,8 +80,9 @@ function Profile() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="form-control"
-                  id="exampleInputEmail1"
+                  id="exampleInputEmail"
                   placeholder="Enter Your Email "
+                  autoComplete="username"
                   disabled
                 />
               </div>
@@ -93,6 +94,7 @@ function Profile() {
                   className="form-control"
                   id="exampleInputPassword1"
                   placeholder="Enter Your Password"
+                  autoComplete="current-password"
                 />
               </div>
               <div className="mb-3">
@@ -101,7 +103,7 @@ function Profile() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="form-control"
-                  id="exampleInputEmail1"
+                  id="exampleInputPhone"
                   placeholder="Enter Your Phone"
                 />
               </div>

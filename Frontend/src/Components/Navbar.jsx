@@ -24,7 +24,7 @@ function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navcontainer}>
-        <NavLink exact to="/" className={styles.navlogo}>
+        <NavLink exact={true.toString()} to="/" className={styles.navlogo}>
           <span>Blogs</span>
           <span className={styles.icon}>
             <CodeIcon />
@@ -50,9 +50,9 @@ function Navbar() {
         >
           <li className={styles.navitem}>
             <NavLink
-              exact
+              exact={true.toString()}
               to="/"
-              activeClassName="active"
+              activeclassname="active"
               className={styles.navlinks}
               onClick={handleClick}
             >
@@ -63,9 +63,9 @@ function Navbar() {
             <>
               <li className={styles.navitem}>
                 <NavLink
-                  exact
+                  exact={true.toString()}
                   to="/register"
-                  activeClassName="active"
+                  activeclassname="active"
                   className={styles.navlinks}
                   onClick={handleClick}
                 >
@@ -74,9 +74,9 @@ function Navbar() {
               </li>
               <li className={styles.navitem}>
                 <NavLink
-                  exact
+                  exact={true.toString()}
                   to="/login"
-                  activeClassName="active"
+                  activeclassname="active"
                   className={styles.navlinks}
                   onClick={handleClick}
                 >
@@ -88,9 +88,9 @@ function Navbar() {
             <>
               <li className={styles.navitem}>
                 <NavLink
-                  exact
+                  exact={true.toString()}
                   to="/dashboard/user"
-                  activeClassName="active"
+                  activeclassname="active"
                   className={styles.navlinks}
                 >
                   Dashboard
@@ -98,9 +98,9 @@ function Navbar() {
               </li>
               <li className={styles.navitem}>
                 <NavLink
-                  exact
+                  exact={true.toString()}
                   to="/login"
-                  activeClassName="active"
+                  activeclassname="active"
                   className={styles.navlinks}
                   onClick={handlelogout}
                 >

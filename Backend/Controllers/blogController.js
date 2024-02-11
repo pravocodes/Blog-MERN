@@ -179,3 +179,31 @@ export const updateBlogContent = async (req, res) => {
     });
   }
 };
+
+export const deleteBlogContent = async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    // console.log(blogId);
+
+    const deletedBlog = await blogModel.findByIdAndDelete(blogId);
+
+    if (!deletedBlog) {
+      return res.status(404).send({
+        success: false,
+        message: "Blog not found.",
+      });
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: "Blog content deleted successfully.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error while deleting blog content.",
+      error,
+    });
+  }
+};

@@ -5,33 +5,67 @@ import { useAuth } from "../../Context/authContext";
 import axios from "axios";
 
 function UpdateBlog() {
+  const [title, setTitle] = useState("");
+  const [photo, setPhoto] = useState("");
+  const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const navigate = useNavigate();
+  const { auth } = useAuth();
 
-    const [title, setTitle] = useState();
-    const [photo, setPhoto] = useState();
-    const [content, setContent] = useState();
-    const [description, setDescription] = useState();
-    const [category, setCategory] = useState();
-    const navigate = useNavigate();
-    const { auth } = useAuth();
+  const { id } = useParams();
 
-    const { id } = useParams();
+  useEffect(() => {
+    const fetchImageURL = async () => {
+      try {
+        const blogresponse = await axios.get(`/api/blogs/getsingleblog/${id}`);
+        const response = await axios.get(`/api/blogs/getblogphoto/${id}`, {
+          responseType: "arraybuffer",
+        });
+        const imageBlob = new Blob([response.data], { type: "image/jpeg" });
+        const imageUrl = URL.createObjectURL(imageBlob);
+        setPhoto(imageUrl);
+        const data = blogresponse.data.blog[0];
+        setTitle(data.title);
+        setContent(data.content);
+        setDescription(data.description);
+        setCategory(data.category);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
-    useEffect(() => {
-      const fetchBlogdata = async () => {
-        try {
-          const response = await axios.get(`/api/blogs/getblogphoto/${_id}`, {
-            responseType: "arraybuffer",
-          });
-          
-        } catch (error) {
-          console.log(error.message);
-        }
-      };
+    fetchImageURL();
+  }, [id]);
 
-      fetchBlogdata();
-    }, [_id]);
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const productData = new FormData();
+      productData.append("title", title);
+      productData.append("content", content);
+      productData.append("userId", auth?.user._id);
+      productData.append("description", description);
+      productData.append("category", category);
+      productData.append("photo", photo);
 
-  
+      const { data } = await axios.post(
+        `/api/blogs/updateblog/${id}`,
+        productData
+      );
+
+      if (data?.success) {
+        alert(data?.message);
+        navigate("/dashboard/user/blogs");
+      } else {
+        alert(data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      // notyf.error("Something went wrong");
+    }
+  };
+
   return (
     <div className="d-flex " style={{ gap: "2rem" }}>
       <div className="col-md-3">
@@ -51,7 +85,7 @@ function UpdateBlog() {
           </div>
           <div className="mb-3">
             <label className="btn btn-outline-secondary col-md-12">
-              {photo ? photo.name : "Upload Photo"}
+              {"Upload Photo"}
               <input
                 type="file"
                 name="photo"
@@ -65,7 +99,7 @@ function UpdateBlog() {
             {photo && (
               <div className="text-center">
                 <img
-                  src={URL.createObjectURL(photo)}
+                  src={photo}
                   alt="product_photo"
                   height={"200px"}
                   className="img img-responsive"
@@ -73,6 +107,7 @@ function UpdateBlog() {
               </div>
             )}
           </div>
+
           <div className="mb-3">
             <input
               type="text"
@@ -101,7 +136,9 @@ function UpdateBlog() {
             ></textarea>
           </div>
           <div className="mb-3">
-            <button className="btn btn-primary">Create Product</button>
+            <button className="btn btn-primary" onClick={handleUpdate}>
+              Save
+            </button>
           </div>
         </div>
       </div>

@@ -11,7 +11,6 @@ function Home() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get("/api/blogs/getblog");
-        console.log(response.data.blog);
         setBlog(response.data.blog);
       } catch (error) {
         console.log(error.message);
@@ -26,7 +25,9 @@ function Home() {
   return (
     <div className={styles.HomePage}>
       {/* <div className={styles.container}> */}
-      <h1 className={styles.heading}>Top Blogs</h1>
+      <h1 className={styles.heading} style={{ marginBottom: "3rem" }}>
+        Top Blogs
+      </h1>
       <div className={styles.blogs}>
         {blog.map((b) => (
           <SingleBlog key={b._id} {...b} />
